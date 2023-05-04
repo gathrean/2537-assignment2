@@ -1,3 +1,10 @@
-<%- include("templates/header") %> 
-    Page not found - 404
-<%- include("templates/footer") %> 
+<%- include("templates/header") %>
+    <div class="wrapper">
+        <div class="error-code">
+            <h1>404. That’s an error :(<h1>
+        </div>
+        <br>
+        <div class="error-description">The requested URL ${req.url} was not found on this server. <br><br> That’s all we
+            know.</div>
+    </div>
+    <%- include("templates/footer") %>

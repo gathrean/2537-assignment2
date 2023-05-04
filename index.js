@@ -10,10 +10,10 @@ const saltRounds = 12;
 const port = process.env.PORT || 8080;
 
 const app = express();
-const path = require('path');
+
 const Joi = require("joi");
 
-const expireTime = 1;
+const expireTime = 24 * 60 * 60 * 1000; //expires after 1 day  (hours * minutes * seconds * millis)
 
 
 
@@ -38,6 +38,9 @@ const userCollection = database.db(mongodb_database).collection('users');
 // Configuring express to use url-encoded data in request bodies
 app.use(express.urlencoded({ extended: false }));
 
+app.set('view engine', 'ejs');
+
+app.use(express.urlencoded({ extended: false }));
 
 // Creating a MongoStore instance to handle session storage using the MongoDB driver
 var mongoStore = MongoStore.create({
@@ -63,19 +66,7 @@ app.use(session({
 
 // A home page links to signup and login, if not logged in; and links to members and signout, if logged in.
 app.get('/', (req, res) => {
-  res.send(`
-        <h1>Welcome to my App!</h1>
-        <body>
-        <p>
-        My name is Gathrean Dela Cruz <br>
-        From Set 2A <br>
-        This is a demo for Assignment 1 <br>
-        </p>
-        <h2> Let's begin! </h2>
-        </body>
-        <a href="/signup"><button>Sign Up</button></a>
-        <a href="/login"><button>Login</button></a>
-    `);
+  res.render("index");
 });
 
 app.get('/nosql-injection', async (req, res) => {
@@ -123,42 +114,19 @@ app.get('/nosql-injection', async (req, res) => {
 
 app.get('/about', (req, res) => {
   var color = req.query.color;
-
-  res.send("<h1 style='color:" + color + ";'>Gathrean Dela Cruz</h1>");
+  res.render("about", { color: color });
 });
 
 
 
 app.get('/signup', (req, res) => {
-  var html = `
-    <h1>Create User</h1>
-    <form action='/submitUser' method='post'>
-      <input id='username' name='username' type='text' placeholder='Username' required>
-      <br>
-      <input id='email' name='email' type='email' placeholder='Email' required>
-      <br>
-      <input id='password' name='password' type='password' placeholder='Password' required>
-      <br><br>
-      <button type='submit'>Submit</button>
-    </form>
-  `;
-  res.send(html);
+  res.render("signup");
 });
 
 
 
 app.get('/login', (req, res) => {
-  var html = `
-    <h1>Login</h1>
-    <form action='/loggingin' method='post'>
-      <input id='email' name='email' type='email' placeholder='Email' required>
-      <br>
-      <input id='password' name='password' type='password' placeholder='Password' required>
-      <br><br>
-      <button>Submit</button>
-    </form>
-    `;
-  res.send(html);
+  res.render("login");
 });
 
 
@@ -304,23 +272,7 @@ app.use(express.static(__dirname + "/public"));
 // 404 error page
 app.get("*", (req, res) => {
   res.status(404);
-  const html = `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta charset="UTF-8">
-        <title>404. That’s an error.</title>
-      </head>
-      <body>
-        <div class="wrapper">
-          <div class="error-code"><h1>404. That’s an error :(<h1></div>
-          <br>
-          <div class="error-description">The requested URL ${req.url} was not found on this server. <br><br> That’s all we know.</div>
-        </div>
-      </body>
-    </html>
-  `;
-  res.send(html);
+  res.render("404");
 })
 
 // States which port to listen on

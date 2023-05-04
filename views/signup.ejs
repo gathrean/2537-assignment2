@@ -1,10 +1,12 @@
 <%- include("templates/header") %>
-    <h1>Login</h1>
-    <form action='/loggingin' method='post'>
+    <h1>Create User</h1>
+    <form action='/submitUser' method='post'>
+        <input id='username' name='username' type='text' placeholder='Username' required>
+        <br>
         <input id='email' name='email' type='email' placeholder='Email' required>
         <br>
         <input id='password' name='password' type='password' placeholder='Password' required>
         <br><br>
-        <button>Submit</button>
+        <button type='submit'>Submit</button>
     </form>
     <%- include("templates/footer") %>
