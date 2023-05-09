@@ -1,0 +1,20 @@
+<%- include("templates/header") %>
+
+    <div class="container mt-5">
+        <h1>Welcome back, <%= username %>!</h1>
+        <div class="row mt-5">
+            <div class="col-sm-4">
+                <img src="<%= image1 %>" class="img-fluid rounded my-3" style="height: 200;">
+            </div>
+            <div class="col-sm-4">
+                <img src="<%= image2 %>" class="img-fluid rounded my-3" style="height: 200;">
+            </div>
+            <div class="col-sm-4">
+                <img src="<%= image3 %>" class="img-fluid rounded my-3" style="height: 200;">
+            </div>
+        </div>
+        <form action="/logout" method="post" class="mt-5">
+            <button type="submit" class="btn btn-danger">Sign Out</button>
+        </form>
+    </div>
+    <%- include("templates/footer") %>

@@ -1,9 +1,31 @@
-<%- include("templates/header") %> 
-	<div>Users:</div>
-    <ul>
-        <% let i=0; %>
-		<% for(i=0; i < users.length; i++) { %>
-        <%- include('templates/user', {user: users[i]})  %> 
-        <% } %> 
-    </ul>
-<%- include("templates/footer") %> 
+<%- include("templates/header") %>
+
+
+    <div class="container">
+        <h1 class="text-center mb-5">Users:</h1>
+        <ul class="list-group">
+            <% let i=0; %>
+                <% for(i=0; i < users.length; i++) { %>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <%- include('templates/user', {user: users[i]}) %>
+                            <div class="btn-toolbar" role="toolbar">
+                                <div class="btn-group me-2" role="group">
+                                    <form action="/promoteUser/<%= users[i]._id %>" method="post">
+                                        <button type="submit" class="btn btn-sm btn-danger">Promote to Admin</button>
+                                    </form>
+                                </div>
+                                <div class="btn-group" role="group">
+                                    <form action="/demoteUser/<%= users[i]._id %>" method="post">
+                                        <button type="submit" class="btn btn-sm btn-success">Demote to User</button>
+                                    </form>
+                                </div>
+                            </div>
+                    </li>
+                    <% } %>
+        </ul>
+    </div>
+
+
+
+
+    <%- include("templates/footer") %>
